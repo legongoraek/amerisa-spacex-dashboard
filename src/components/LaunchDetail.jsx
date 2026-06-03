@@ -15,7 +15,6 @@ const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
       <div className="detail-header">
         <div className="detail-title">
           <p className="detail-eyebrow">Detalle del lanzamiento</p>
-          <h2>{selectedLaunch.name}</h2>
         </div>
 
         <div className="detail-actions">
@@ -53,6 +52,11 @@ const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
             </p>
 
             <p>
+                <strong>Nombre:</strong> {selectedLaunch.name}
+            </p>
+
+
+            <p>
                 <strong>Cohete:</strong> {selectedLaunch.rocket_name}
             </p>
 
@@ -76,6 +80,10 @@ const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
             </p>
 
             <p>
+                <strong>Detalles:</strong> {selectedLaunch.details}
+            </p>
+
+            <p>
                 <strong>Latitud:</strong>{" "}
                 {selectedLaunch.launchpad_location?.latitude}
             </p>
@@ -85,14 +93,15 @@ const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
                 {selectedLaunch.launchpad_location?.longitude}
             </p>
 
-            <p>
-                <strong>Detalles:</strong> {selectedLaunch.details}
-            </p>
+            
             </div>
-
+        </div>
+        <div className="detail-header">
+            <div className="detail-title">
+                <p className="detail-eyebrow">Ubicación del lanzamiento</p>
+            </div>
         </div>
         <div className="launch-map-section">
-            <h3>Ubicación del lanzamiento</h3>
             <LaunchMap launch={selectedLaunch} />
         </div>
     </section>

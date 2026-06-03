@@ -3,6 +3,8 @@ const FilterSections = ({
   setSearch,
   dateFilter,
   setDateFilter,
+  dataSource,
+  setDataSource,
 }) => {
   const handleClearFilters = () => {
     setSearch("");
@@ -11,6 +13,17 @@ const FilterSections = ({
 
   return (
     <section className="filters-card">
+      <div className="filter-group">
+        <label>Fuente de datos</label>
+        <select
+          value={dataSource}
+          onChange={(e) => setDataSource(e.target.value)}
+        >
+          <option value="json">JSON local</option>
+          <option value="api">API SpaceX</option>
+        </select>
+      </div>
+
       <div className="filter-group">
         <label>Buscar por nombre</label>
         <input

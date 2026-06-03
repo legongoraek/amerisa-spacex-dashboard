@@ -100,7 +100,7 @@ const LaunchTable = ({
                             )
                         }
                     >
-                        {selectedLaunch?.id === launch.id ? "Cerrar detalle" : "Ver detalle"}
+                        {selectedLaunch?.id === launch.id ? "Cerrar" : "Ver más"}
                     </button>
                   </td>
                 </tr>

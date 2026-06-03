@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import launchesData from "./data/spacex_launches_simplified.json";
 import FilterSections from "./components/FilterSections";
 import LaunchTable from "./components/LaunchTable";
+import { fetchSpaceXLaunches } from "./services/spacexService";
 import "./App.css";
 
 function App() {
@@ -13,33 +14,70 @@ function App() {
   });
   const [selectedLaunch, setSelectedLaunch] = useState(null);
   const [selectedLaunchIds, setSelectedLaunchIds] = useState([]);
+  const [dataSource, setDataSource] = useState("json");
+  const [launches, setLaunches] = useState(launchesData);
+  const [loadingLaunches, setLoadingLaunches] = useState(false);
+  const [launchesError, setLaunchesError] = useState("");
 
-  const filteredLaunches = useMemo(() => {
-    let data = [...launchesData];
+   useEffect(() => {
+    const loadLaunches = async () => {
+      setSelectedLaunch(null);
+      setSelectedLaunchIds([]);
+      setLaunchesError("");
 
-    if (search.trim()) {
-      data = data.filter((launch) =>
-        launch?.name?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
+      if (dataSource === "json") {
+        setLaunches(launchesData);
+        return;
+      }
 
-    if (dateFilter) {
-      data = data.filter((launch) =>
-        launch?.date_utc?.startsWith(dateFilter)
-      );
-    }
+      try {
+        setLoadingLaunches(true);
+        const apiLaunches = await fetchSpaceXLaunches();
+        setLaunches(apiLaunches);
+      } catch (error) {
+        console.error(error);
+        setLaunchesError(
+          "No se pudo cargar la API de SpaceX. Se muestran datos locales como respaldo."
+        );
+        setLaunches(launchesData);
+      } finally {
+        setLoadingLaunches(false);
+      }
+    };
 
-    data.sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+    loadLaunches();
+  }, [dataSource]);
 
-      if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1;
-      if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
-    });
+    const filteredLaunches = useMemo(() => {
+      let data = [...launches];
 
-    return data;
-  }, [search, dateFilter, sortConfig]);
+      if (search.trim()) {
+        data = data.filter((launch) =>
+          launch.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+
+      if (dateFilter) {
+        data = data.filter((launch) => launch.date_utc.startsWith(dateFilter));
+      }
+
+      data.sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+
+        if (valueA < valueB) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+
+        if (valueA > valueB) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+
+        return 0;
+      });
+
+      return data;
+    }, [launches, search, dateFilter, sortConfig]);
 
   const handleSort = (key) => {
     setSortConfig((prev) => ({
@@ -104,7 +142,17 @@ function App() {
         setSearch={setSearch}
         dateFilter={dateFilter}
         setDateFilter={setDateFilter}
+        dataSource={dataSource}
+        setDataSource={setDataSource}
       />
+
+      {loadingLaunches && (
+        <p className="loading-message">Cargando información desde SpaceX...</p>
+      )}
+
+      {launchesError && (
+        <p className="error-message">{launchesError}</p>
+      )}
 
       <LaunchTable
         launches={filteredLaunches}

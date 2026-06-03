@@ -70,7 +70,8 @@ body {
   min-width: 220px;
 }
 
-input:not([type="checkbox"]) {
+input:not([type="checkbox"]),
+select {
   padding: 12px 14px;
   border: 1px solid #d1d5db;
   border-radius: 10px;
@@ -309,4 +310,22 @@ th {
 
 .detail-btn-active {
   background: #ef4444;
+}
+
+.loading-message,
+.error-message {
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.loading-message {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
 }
