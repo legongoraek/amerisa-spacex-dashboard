@@ -29,11 +29,11 @@ const LaunchTable = ({
                 <span>{launches.length} registros</span>
             </div>
             <button 
-                className="pdf-btn"
+                className="pdf-btn table-pdf-btn"
                 disabled={selectedLaunches.length === 0}
                 onClick={() => generateLaunchesPdf(selectedLaunches)}
             >
-                Exportar seleccionados ({selectedLaunches.length})
+                Exportar PDF ({selectedLaunches.length})
             </button>
         </div>
 

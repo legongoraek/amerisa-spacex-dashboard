@@ -99,6 +99,17 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 14px;
+}
+
+.table-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.table-pdf-btn {
+  white-space: nowrap;
 }
 
 .table-title h2 {
@@ -237,6 +248,21 @@ th {
   .filters-card {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-title {
+    width: 100%;
+  }
+
+  .table-pdf-btn {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 }
 
