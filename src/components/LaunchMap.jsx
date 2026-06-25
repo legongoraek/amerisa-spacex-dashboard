@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -27,12 +28,20 @@ const LaunchMap = ({ launch }) => {
   const position = [latitude, longitude];
 
   return (
-    <div className="map-wrap">
+    <Box
+      sx={{
+        width: "100%",
+        height: 320,
+        borderRadius: "16px",
+        overflow: "hidden",
+        border: "1px solid #e5e7eb",
+      }}
+    >
       <MapContainer
         center={position}
         zoom={10}
         scrollWheelZoom={false}
-        className="launch-map"
+        style={{ width: "100%", height: "100%" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -47,7 +56,7 @@ const LaunchMap = ({ launch }) => {
           </Popup>
         </Marker>
       </MapContainer>
-    </div>
+    </Box>
   );
 };
 

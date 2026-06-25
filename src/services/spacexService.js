@@ -1,4 +1,4 @@
-const SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/query";
+const SPACEX_API_URL = "/spacex-api/v4/launches/query";
 
 const LAUNCHPAD_NAMES = {
   "5e9e4501f5090910d4566f83": {

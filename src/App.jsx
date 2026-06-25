@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { Box, Container, Paper, Typography, Alert, CircularProgress, Stack } from "@mui/material";
 import launchesData from "./data/spacex_launches_simplified.json";
 import FilterSections from "./components/FilterSections";
 import LaunchTable from "./components/LaunchTable";
 import { fetchSpaceXLaunches } from "./services/spacexService";
-import "./App.css";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -19,7 +19,7 @@ function App() {
   const [loadingLaunches, setLoadingLaunches] = useState(false);
   const [launchesError, setLaunchesError] = useState("");
 
-   useEffect(() => {
+  useEffect(() => {
     const loadLaunches = async () => {
       setSelectedLaunch(null);
       setSelectedLaunchIds([]);
@@ -33,6 +33,10 @@ function App() {
       try {
         setLoadingLaunches(true);
         const apiLaunches = await fetchSpaceXLaunches();
+        if (!Array.isArray(apiLaunches)) {
+          throw new Error("La respuesta de la API no es un array válido.");
+        }
+        setLaunchesError("");
         setLaunches(apiLaunches);
       } catch (error) {
         console.error(error);
@@ -48,36 +52,36 @@ function App() {
     loadLaunches();
   }, [dataSource]);
 
-    const filteredLaunches = useMemo(() => {
-      let data = [...launches];
+  const filteredLaunches = useMemo(() => {
+    let data = [...launches];
 
-      if (search.trim()) {
-        data = data.filter((launch) =>
-          launch.name.toLowerCase().includes(search.toLowerCase())
-        );
+    if (search.trim()) {
+      data = data.filter((launch) =>
+        launch.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (dateFilter) {
+      data = data.filter((launch) => launch.date_utc.startsWith(dateFilter));
+    }
+
+    data.sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+      if (valueA < valueB) {
+        return sortConfig.direction === "asc" ? -1 : 1;
       }
 
-      if (dateFilter) {
-        data = data.filter((launch) => launch.date_utc.startsWith(dateFilter));
+      if (valueA > valueB) {
+        return sortConfig.direction === "asc" ? 1 : -1;
       }
 
-      data.sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
+      return 0;
+    });
 
-        if (valueA < valueB) {
-          return sortConfig.direction === "asc" ? -1 : 1;
-        }
-
-        if (valueA > valueB) {
-          return sortConfig.direction === "asc" ? 1 : -1;
-        }
-
-        return 0;
-      });
-
-      return data;
-    }, [launches, search, dateFilter, sortConfig]);
+    return data;
+  }, [launches, search, dateFilter, sortConfig]);
 
   const handleSort = (key) => {
     setSortConfig((prev) => ({
@@ -126,47 +130,97 @@ function App() {
   );
 
   return (
-    <main className="app">
-      <section className="hero">
-        <div>
-          <p className="eyebrow" style={{ cursor: "pointer" }} onClick={() => window.location.href = "https://amerisalogistics.com/"}>Amerisa Logistics</p>
-          <h1>SpaceX Launches Dashboard</h1>
-          <p>
+    <Box
+      component="main"
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#f0f2f5",
+        py: 4,
+      }}
+    >
+      <Container maxWidth="lg">
+        <Paper
+          elevation={0}
+          sx={{
+            backgroundColor: "#1877f2",
+            color: "#ffffff",
+            p: 4,
+            borderRadius: "16px",
+            mb: 3,
+          }}
+        >
+          <Typography
+            variant="overline"
+            sx={{
+              opacity: 0.85,
+              letterSpacing: "2px",
+              cursor: "pointer",
+              display: "inline-block",
+            }}
+            onClick={() =>
+              (window.location.href = "https://amerisalogistics.com/")
+            }
+          >
+            Amerisa Logistics
+          </Typography>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 700, mt: 0.5, mb: 1 }}>
+            SpaceX Launches Dashboard
+          </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.9 }}>
             Explora los lanzamientos de SpaceX.
-          </p>
-        </div>
-      </section>
+          </Typography>
+        </Paper>
 
-      <FilterSections
-        search={search}
-        setSearch={setSearch}
-        dateFilter={dateFilter}
-        setDateFilter={setDateFilter}
-        dataSource={dataSource}
-        setDataSource={setDataSource}
-      />
+        <FilterSections
+          search={search}
+          setSearch={setSearch}
+          dateFilter={dateFilter}
+          setDateFilter={setDateFilter}
+          dataSource={dataSource}
+          setDataSource={setDataSource}
+        />
 
-      {loadingLaunches && (
-        <p className="loading-message">Cargando información desde SpaceX...</p>
-      )}
+        {loadingLaunches && (
+          <Stack
+            direction="row"
+            spacing={1.5}
+            sx={{
+              alignItems: "center",
+              width: "100%",
+              minWidth: 0,
+              backgroundColor: "#e7f3ff",
+              color: "#1877f2",
+              p: 2,
+              borderRadius: "12px",
+              mb: 2.5,
+            }}
+          >
+            <CircularProgress size={18} sx={{ color: "#1877f2" }} />
+            <Typography sx={{ fontWeight: 600 }}>
+              Cargando información desde SpaceX...
+            </Typography>
+          </Stack>
+        )}
 
-      {launchesError && (
-        <p className="error-message">{launchesError}</p>
-      )}
+        {launchesError && (
+          <Alert severity="error" sx={{ mb: 2.5, borderRadius: "12px" }}>
+            {launchesError}
+          </Alert>
+        )}
 
-      <LaunchTable
-        launches={filteredLaunches}
-        selectedLaunch={selectedLaunch}
-        setSelectedLaunch={setSelectedLaunch}
-        formatDate={formatDate}
-        handleSort={handleSort}
-        selectedLaunchIds={selectedLaunchIds}
-        toggleLaunchSelection={toggleLaunchSelection}
-        toggleSelectAllLaunches={toggleSelectAllLaunches}
-        selectedLaunches={selectedLaunches}
-      />
-          
-    </main>
+        <LaunchTable
+          launches={filteredLaunches}
+          selectedLaunch={selectedLaunch}
+          setSelectedLaunch={setSelectedLaunch}
+          formatDate={formatDate}
+          handleSort={handleSort}
+          selectedLaunchIds={selectedLaunchIds}
+          toggleLaunchSelection={toggleLaunchSelection}
+          toggleSelectAllLaunches={toggleSelectAllLaunches}
+          selectedLaunches={selectedLaunches}
+        />
+      </Container>
+    </Box>
   );
 }
 
