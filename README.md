@@ -4,6 +4,10 @@ Mini dashboard desarrollado en React para consultar información de lanzamientos
 
 Este proyecto fue realizado como parte de una prueba técnica para la vacante de Desarrollador en Amerisa Logistics.
 
+## Sitio publicado
+
+https://amerisa-spacex-dashboard.vercel.app/
+
 ## Funcionalidades
 
 - Consulta de lanzamientos de SpaceX.
