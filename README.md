@@ -114,6 +114,20 @@ npm run preview
 
     Contiene la lógica para generar el reporte PDF en tamaño carta, evitando cortes de contenido al cambiar de página.
 
+## SEO y GEO
+
+El dashboard incluye una capa de optimización para buscadores y motores generativos sin modificar la interfaz de usuario.
+
+- Metadata descriptiva, URL canónica, Open Graph y Twitter Cards en `index.html`.
+- Datos estructurados JSON-LD con `WebApplication` para describir el propósito, autor y temática de la aplicación.
+- `public/robots.txt` para permitir rastreo y declarar el sitemap.
+- `public/sitemap.xml` con la URL canónica del dashboard.
+- `public/llms.txt` con contexto legible por sistemas de IA sobre funcionalidades, fuentes de datos, entidades principales y alcance del proyecto.
+
+URL canónica: https://amerisa-spacex-dashboard.vercel.app/
+
+El proyecto es una implementación independiente creada como prueba técnica para Amerisa Logistics y no es un producto oficial de SpaceX.
+
 ## Consideraciones
 
 El proyecto se enfocó en cubrir los puntos principales solicitados:
