@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amerisa-spacex-dashboard.vercel.app/sitemap.xml
