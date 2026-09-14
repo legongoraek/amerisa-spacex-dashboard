@@ -1,0 +1,41 @@
+# SpaceX Launches Dashboard
+
+> Interactive React dashboard created as a technical assessment for Amerisa Logistics. It helps users explore SpaceX launch information through filtering, launch details, maps, and PDF reports.
+
+Canonical URL: https://amerisa-spacex-dashboard.vercel.app/
+Source code: https://github.com/legongoraek/amerisa-spacex-dashboard
+
+## What this application provides
+
+- A searchable and sortable table of SpaceX launches.
+- Filtering by launch name and date.
+- Launch details including date, status, and location.
+- A map showing the launch-site location when coordinates are available.
+- Selection of one or multiple launch records.
+- PDF report generation for selected launches.
+- A choice between bundled local JSON data and the public SpaceX API.
+- Local JSON fallback when the SpaceX API cannot be loaded.
+
+## Data sources
+
+The application can use a bundled JSON dataset or retrieve launch information from the public SpaceX API. API responses are normalized to the same structure used by the table, detail view, map, and PDF generator.
+
+## Main entities and concepts
+
+- SpaceX launch
+- Launch name
+- Launch date
+- Launch status
+- Launch-site location
+- Geographic coordinates
+- Launch image
+- PDF report
+- Amerisa Logistics technical assessment
+
+## Technical context
+
+The dashboard is built with React and Vite. Mapping uses Leaflet and React Leaflet. PDF generation uses jsPDF. The user interface is primarily in Spanish (Mexico).
+
+## Attribution and scope
+
+This is an independent software project created by Luis Enrique Góngora Ek as a technical assessment for Amerisa Logistics. It is not an official SpaceX product and does not claim affiliation with SpaceX.
