@@ -13,6 +13,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import LaunchMap from "./LaunchMap";
 import { generateLaunchesPdf } from "../utils/pdfGenerator";
 
+const InfoRow = ({ label, value }) => (
+  <Typography variant="body2" sx={{ color: "#1c1e21" }}>
+    <Box component="strong" sx={{ fontWeight: 700 }}>
+      {label}:
+    </Box>{" "}
+    {value}
+  </Typography>
+);
+
 const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
   const [failedImageUrl, setFailedImageUrl] = useState(null);
 
@@ -20,15 +29,6 @@ const LaunchDetail = ({ selectedLaunch, onClose, formatDate }) => {
 
   const imageUrl = selectedLaunch.images?.[0];
   const hasImageError = imageUrl === failedImageUrl;
-
-  const InfoRow = ({ label, value }) => (
-    <Typography variant="body2" sx={{ color: "#1c1e21" }}>
-      <Box component="strong" sx={{ fontWeight: 700 }}>
-        {label}:
-      </Box>{" "}
-      {value}
-    </Typography>
-  );
 
   return (
     <Paper
