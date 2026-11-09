@@ -60,7 +60,7 @@ Si ocurre algún error al consultar la API, la aplicación muestra un mensaje y 
 Clonar el repositorio:
 
 ```bash
-git https://github.com/legongoraek/amerisa-spacex-dashboard.git
+git clone https://github.com/legongoraek/amerisa-spacex-dashboard.git
 ```
 
 ## Entrar al proyecto
