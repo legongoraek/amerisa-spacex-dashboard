@@ -18,7 +18,7 @@ const LAUNCHPAD_NAMES = {
   },
 };
 
-const getLaunchpadInfo = (launchpadId) => {
+export const getLaunchpadInfo = (launchpadId) => {
   return (
     LAUNCHPAD_NAMES[launchpadId] || {
       name: "Ubicación no disponible",
@@ -28,7 +28,7 @@ const getLaunchpadInfo = (launchpadId) => {
   );
 };
 
-const normalizeLaunchFromApi = (launch) => {
+export const normalizeLaunchFromApi = (launch) => {
   const launchpadInfo = getLaunchpadInfo(launch.launchpad);
 
   return {
